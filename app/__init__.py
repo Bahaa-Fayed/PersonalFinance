@@ -15,7 +15,7 @@ def create_app():
     from app.models import Account
 
     # تسجيل الـ Blueprints
-    from app.routes.dashboard import dashboard_bp
+    from app.dashboard import dashboard_bp
     app.register_blueprint(dashboard_bp)
 
     # إنشاء الجداول إذا لم تكن موجودة

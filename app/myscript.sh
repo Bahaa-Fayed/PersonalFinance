@@ -1,5 +1,14 @@
-git add .
+mkdir -p dashboard/templates/dashboard
+mkdir -p dashboard/static
 
-git commit -m "Refactor project to feature-based architecture"
+mkdir -p accounts/templates/accounts
+mkdir -p accounts/static
 
-git push
+mkdir -p transactions/templates/transactions
+mkdir -p transactions/static
+
+mkdir -p budgets/templates/budgets
+
+mkdir -p reports/templates/reports
+
+mkdir -p settings/templates/settings
