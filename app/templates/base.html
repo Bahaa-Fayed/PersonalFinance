@@ -37,22 +37,18 @@ href="{{ url_for('static', filename='css/dark.css') }}">
 {% include "components/navbar.html" %}
 
 <div class="container-fluid">
+    <div class="row">
 
-<div class="row">
+        {% include "components/sidebar.html" %}
 
-{% include "components/sidebar.html" %}
+        <main class="col-12 col-md-10 p-4">
+            {% include "components/alerts.html" %}
 
-<main class="col">
+            {% block content %}
+            {% endblock %}
+        </main>
 
-{% include "components/alerts.html" %}
-
-{% block content %}
-{% endblock %}
-
-</main>
-
-</div>
-
+    </div>
 </div>
 
 {% include "components/footer.html" %}

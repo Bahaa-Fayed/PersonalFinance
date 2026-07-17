@@ -1,6 +1,3 @@
-rm -rf app/dashboard/templates
-rm -rf app/accounts/templates
-rm -rf app/transactions/templates
-rm -rf app/budgets/templates
-rm -rf app/reports/templates
-rm -rf app/settings/templates
+git add .
+git commit -m "v0.2.0: Prepare project structure and navigation"
+git push

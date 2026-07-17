@@ -1,14 +1,33 @@
-mkdir -p dashboard/templates/dashboard
-mkdir -p dashboard/static
+#!/bin/bash
 
-mkdir -p accounts/templates/accounts
-mkdir -p accounts/static
+dirs=("accounts" "transactions" "budgets" "reports" "settings")
 
-mkdir -p transactions/templates/transactions
-mkdir -p transactions/static
+for dir in "${dirs[@]}"; do
+    mkdir -p "app/templates/$dir"
 
-mkdir -p budgets/templates/budgets
+    cat > "app/templates/$dir/index.html" <<EOF
+{% extends "base.html" %}
 
-mkdir -p reports/templates/reports
+{% block title %}
+${dir^}
+{% endblock %}
 
-mkdir -p settings/templates/settings
+{% block content %}
+
+<div class="container py-4">
+
+    <h2>${dir^}</h2>
+
+    <div class="alert alert-info">
+        هذه الصفحة قيد التطوير.
+    </div>
+
+</div>
+
+{% endblock %}
+EOF
+
+    echo "✅ app/templates/$dir/index.html"
+done
+
+echo "🎉 تم إنشاء جميع الصفحات."

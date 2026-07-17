@@ -1,68 +1,48 @@
-<div
-class="col-md-2 bg-light p-3 min-vh-100">
+<div class="col-12 col-md-2 bg-light border-start p-3 min-vh-100">
+    <ul class="nav flex-column">
 
-<ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('dashboard.index') }}">
+                <i class="fa-solid fa-house ms-2"></i>
+                الرئيسية
+            </a>
+        </li>
 
-<li class="nav-item">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('accounts.index') }}">
+                <i class="fa-solid fa-wallet ms-2"></i>
+                الحسابات
+            </a>
+        </li>
 
-<a
-class="nav-link"
-href="#">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('transactions.index') }}">
+                <i class="fa-solid fa-money-bill-transfer ms-2"></i>
+                الحركات
+            </a>
+        </li>
 
-🏠 الرئيسية
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('budgets.index') }}">
+                <i class="fa-solid fa-chart-pie ms-2"></i>
+                الميزانيات
+            </a>
+        </li>
 
-</a>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('reports.index') }}">
+                <i class="fa-solid fa-chart-column ms-2"></i>
+                التقارير
+            </a>
+        </li>
 
-</li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('settings.index') }}">
+                <i class="fa-solid fa-gear ms-2"></i>
+                الإعدادات
+            </a>
+        </li>
 
-<li>
-
-<a
-class="nav-link"
-href="#">
-
-💳 الحسابات
-
-</a>
-
-</li>
-
-<li>
-
-<a
-class="nav-link"
-href="#">
-
-💰 الحركات
-
-</a>
-
-</li>
-
-<li>
-
-<a
-class="nav-link"
-href="#">
-
-📊 الميزانية
-
-</a>
-
-</li>
-
-<li>
-
-<a
-class="nav-link"
-href="#">
-
-📈 التقارير
-
-</a>
-
-</li>
-
-</ul>
+    </ul>
 
 </div>
