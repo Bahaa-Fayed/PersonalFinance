@@ -1,0 +1,49 @@
+<div class="d-none d-md-block col-md-2 bg-light border-start min-vh-100 p-3">
+
+    <ul class="nav flex-column">
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dashboard.index') }}">
+                <i class="fa-solid fa-house ms-2"></i>
+                الرئيسية
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('accounts.index') }}">
+                <i class="fa-solid fa-wallet ms-2"></i>
+                الحسابات
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('transactions.index') }}">
+                <i class="fa-solid fa-money-bill-transfer ms-2"></i>
+                الحركات
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('budgets.index') }}">
+                <i class="fa-solid fa-chart-pie ms-2"></i>
+                الميزانيات
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('reports.index') }}">
+                <i class="fa-solid fa-chart-column ms-2"></i>
+                التقارير
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('settings.index') }}">
+                <i class="fa-solid fa-gear ms-2"></i>
+                الإعدادات
+            </a>
+        </li>
+
+    </ul>
+
+</div>

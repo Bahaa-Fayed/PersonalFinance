@@ -26,33 +26,9 @@ class AccountService:
         return AccountRepository.create(account)
 
     @staticmethod
-    def update_account(account_id, name, account_type, opening_balance):
-
-        account = AccountRepository.get_by_id(account_id)
-
-        if account is None:
-            return None
-
-        account.name = name
-        account.account_type = account_type
-        account.opening_balance = opening_balance
-
-        AccountRepository.update()
-
-        return account
+    def update_account():
+        return AccountRepository.update()
 
     @staticmethod
-    def delete_account(account_id):
-
-        account = AccountRepository.get_by_id(account_id)
-
-        if account is None:
-            return False
-
-        # لاحقًا سنضيف:
-        # إذا كان للحساب حركات مالية فلا تسمح بالحذف
-
-        AccountRepository.delete(account)
-
-        return True
-
+    def delete_account(account):
+        return AccountRepository.delete(account)

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}حساب جديد{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <h2 class="mb-4">
+        <i class="fa-solid fa-wallet"></i>
+        {% if edit_mode %}
+        تعديل الحساب
+        {% else %}
+        إضافة حساب جديد
+        {% endif %}
+    </h2>
+
+    <form method="POST">
+
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+
+            {{ form.name.label(class="form-label") }}
+
+            {{ form.name(class="form-control") }}
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.account_type.label(class="form-label") }}
+
+            {{ form.account_type(class="form-select") }}
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">العملة</label>
+
+            <input
+                class="form-control"
+                value="الجنيه المصري (EGP)"
+                readonly>
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.opening_balance.label(class="form-label") }}
+
+            {{ form.opening_balance(class="form-control") }}
+
+        </div>
+
+        {% if edit_mode %}
+        <input
+            type="submit"
+            value="حفظ التعديلات"
+            class="btn btn-primary">
+        {% else %}
+        {{ form.submit(class="btn btn-primary") }}
+        {% endif %}
+
+        <a
+            href="{{ url_for('accounts.index') }}"
+            class="btn btn-secondary">
+
+            إلغاء
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}
