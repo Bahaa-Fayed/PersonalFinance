@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{% if edit_mode %}
+تعديل حركة
+{% else %}
+إضافة حركة جديدة
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <h2 class="mb-4">
+
+        <i class="fa-solid fa-money-bill-transfer"></i>
+
+        {% if edit_mode %}
+        تعديل حركة
+        {% else %}
+        إضافة حركة جديدة
+        {% endif %}
+
+    </h2>
+
+    <form method="POST">
+
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+
+            {{ form.transaction_type.label(class="form-label") }}
+
+            {{ form.transaction_type(
+                class="form-select",
+                id="transaction_type"
+            ) }}
+
+        </div>
+
+        <div
+            class="mb-3"
+            id="from_account_group">
+
+            {{ form.from_account.label(class="form-label") }}
+
+            {{ form.from_account(class="form-select") }}
+
+        </div>
+
+        <div
+            class="mb-3"
+            id="to_account_group">
+
+            {{ form.to_account.label(class="form-label") }}
+
+            {{ form.to_account(class="form-select") }}
+
+        </div>
+
+        <div
+            class="mb-3"
+            id="category_group">
+
+            <label
+                class="form-label"
+                for="category_id">
+
+                الفئة
+
+            </label>
+
+            <select
+                id="category_id"
+                name="category_id"
+                class="form-select">
+
+                <option value="0">
+
+                    بدون فئة
+
+                </option>
+
+                {% for category in categories %}
+
+                <option
+                    value="{{ category.id }}"
+                    data-type="{{ category.category_type }}"
+
+                    {% if form.category_id.data == category.id %}
+                    selected
+                    {% endif %}>
+
+                    {{ category.name }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.amount.label(class="form-label") }}
+
+            {{ form.amount(class="form-control") }}
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.transaction_date.label(class="form-label") }}
+
+            {{ form.transaction_date(class="form-control") }}
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.description.label(class="form-label") }}
+
+            {{ form.description(
+                class="form-control",
+                rows="4"
+            ) }}
+
+        </div>
+
+        {% if edit_mode %}
+
+        <input
+            type="submit"
+            value="حفظ التعديلات"
+            class="btn btn-primary">
+
+        {% else %}
+
+        {{ form.submit(class="btn btn-primary") }}
+
+        {% endif %}
+
+        <a
+            href="{{ url_for('transactions.index') }}"
+            class="btn btn-secondary">
+
+            إلغاء
+
+        </a>
+
+    </form>
+
+</div>
+
+<script>
+
+const transactionType =
+document.getElementById("transaction_type");
+
+const fromGroup =
+document.getElementById("from_account_group");
+
+const toGroup =
+document.getElementById("to_account_group");
+
+const categoryGroup =
+document.getElementById("category_group");
+
+const categorySelect =
+document.getElementById("category_id");
+
+function updateForm(){
+
+    const type = transactionType.value;
+
+    if(type === "income"){
+
+        fromGroup.style.display = "none";
+        toGroup.style.display = "block";
+        categoryGroup.style.display = "block";
+
+    }
+
+    else if(type === "expense"){
+
+        fromGroup.style.display = "block";
+        toGroup.style.display = "none";
+        categoryGroup.style.display = "block";
+
+    }
+
+    else{
+
+        fromGroup.style.display = "block";
+        toGroup.style.display = "block";
+        categoryGroup.style.display = "none";
+
+    }
+
+    for(const option of categorySelect.options){
+
+        if(option.value === "0"){
+
+            option.hidden = false;
+            continue;
+
+        }
+
+        option.hidden =
+            option.dataset.type !== type;
+
+    }
+
+    categorySelect.value = "0";
+
+}
+
+transactionType.addEventListener(
+    "change",
+    updateForm
+);
+
+updateForm();
+
+</script>
+
+{% endblock %}

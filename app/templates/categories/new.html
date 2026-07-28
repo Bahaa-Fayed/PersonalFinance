@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{% if edit_mode %}
+تعديل فئة
+{% else %}
+إضافة فئة جديدة
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <h2 class="mb-4">
+
+        <i class="fa-solid fa-tags"></i>
+
+        {% if edit_mode %}
+        تعديل فئة
+        {% else %}
+        إضافة فئة جديدة
+        {% endif %}
+
+    </h2>
+
+    <form method="POST">
+
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+
+            {{ form.name.label(class="form-label") }}
+
+            {{ form.name(class="form-control") }}
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.category_type.label(class="form-label") }}
+
+            {{ form.category_type(class="form-select") }}
+
+        </div>
+
+        {% if edit_mode %}
+
+        <input
+            type="submit"
+            value="حفظ التعديلات"
+            class="btn btn-primary">
+
+        {% else %}
+
+        {{ form.submit(class="btn btn-primary") }}
+
+        {% endif %}
+
+        <a
+            href="{{ url_for('categories.index') }}"
+            class="btn btn-secondary">
+
+            إلغاء
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

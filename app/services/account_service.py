@@ -20,7 +20,7 @@ class AccountService:
             account_type=account_type,
             currency="EGP",
             opening_balance=opening_balance,
-            current_balance=opening_balance
+            current_balance=opening_balance,
         )
 
         return AccountRepository.create(account)
@@ -49,10 +49,20 @@ class AccountService:
         if account is None:
             return False
 
-        # لاحقًا سنضيف:
-        # إذا كان للحساب حركات مالية فلا تسمح بالحذف
-
+        # لاحقًا سنمنع حذف الحساب إذا كانت له حركات مالية.
         AccountRepository.delete(account)
 
         return True
 
+    @staticmethod
+    def increase_balance(account, amount):
+        account.current_balance += amount
+
+    @staticmethod
+    def decrease_balance(account, amount):
+        account.current_balance -= amount
+
+    @staticmethod
+    def transfer_balance(from_account, to_account, amount):
+        AccountService.decrease_balance(from_account, amount)
+        AccountService.increase_balance(to_account, amount)

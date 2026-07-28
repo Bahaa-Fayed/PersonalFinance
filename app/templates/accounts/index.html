@@ -40,13 +40,23 @@
 
             <tr>
 
-                <td>{{ account.name }}</td>
+                <td>
 
-                <td>{{ account.account_type }}</td>
+                <span
+                    class="badge"
+                    style="background: {{ account.color }};">
+
+                    {{ account.name }}
+
+                </span>
+
+                </td>
+
+                <td>{{ account.account_type_label }}</td>
 
                 <td>{{ account.currency }}</td>
 
-                <td>{{ account.current_balance }}</td>
+                <td>{{ account.balance_text }}</td>
 
                 <td>
 
