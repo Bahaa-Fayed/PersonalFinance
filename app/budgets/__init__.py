@@ -2,7 +2,8 @@ from flask import Blueprint
 
 budgets_bp = Blueprint(
     "budgets",
-    __name__
+    __name__,
+    template_folder="templates",
 )
 
 from . import routes

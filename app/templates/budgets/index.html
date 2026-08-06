@@ -1,18 +1,186 @@
 {% extends "base.html" %}
 
 {% block title %}
-Budgets
+الميزانيات
 {% endblock %}
 
 {% block content %}
 
 <div class="container py-4">
 
-    <h2>Budgets</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            الميزانيات
+
+        </h2>
+
+        <a
+            href="{{ url_for('budgets.new') }}"
+            class="btn btn-primary">
+
+            <i class="fa-solid fa-plus"></i>
+
+            إضافة ميزانية
+
+        </a>
+
+    </div>
+
+    {% if budgets %}
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>الفئة</th>
+                    <th>المبلغ</th>
+                    <th>الفترة</th>
+                    <th>البداية</th>
+                    <th>النهاية</th>
+                    <th>المصروف</th>
+                    <th>المتبقي</th>
+                    <th style="min-width: 220px;">التقدم</th>
+                    <th>الإجراءات</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for budget in budgets %}
+
+                <tr>
+
+                    <td>
+                        {{ budget.category.name }}
+                    </td>
+
+                    <td>
+                        {{ budget.amount_text }}
+                    </td>
+
+                    <td>
+                        {{ budget.period_label }}
+                    </td>
+
+                    <td>
+                        {{ budget.start_date_text }}
+                    </td>
+
+                    <td>
+                        {{ budget.end_date_text }}
+                    </td>
+
+                    <td class="text-danger fw-semibold">
+                        {{ budget.spent_text }}
+                    </td>
+
+                    <td class="{% if budget.remaining < 0 %}text-danger{% else %}text-success{% endif %} fw-semibold">
+                        {{ budget.remaining_text }}
+                    </td>
+
+                    <td>
+
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+
+                            <small class="fw-bold">
+
+                                {{ budget.percentage }}%
+
+                            </small>
+
+                            {% if budget.is_over %}
+
+                                <span class="badge bg-danger">
+
+                                    تجاوز
+
+                                </span>
+
+                            {% elif budget.is_warning %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    تحذير
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="progress" style="height:10px;">
+
+                            <div
+                                class="progress-bar bg-{{ budget.progress_color }}"
+                                role="progressbar"
+                                style="width: {{ budget.percentage }}%;"
+                                aria-valuenow="{{ budget.percentage }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{{ url_for('budgets.edit', budget_id=budget.id) }}"
+                            class="btn btn-sm btn-warning">
+
+                            <i class="fa-solid fa-pen"></i>
+
+                        </a>
+
+                        <form
+                            action="{{ url_for('budgets.delete', budget_id=budget.id) }}"
+                            method="POST"
+                            class="d-inline">
+
+                            <button
+                                type="submit"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('هل تريد حذف هذه الميزانية؟')">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
 
     <div class="alert alert-info">
-        هذه الصفحة قيد التطوير.
+
+        لا توجد ميزانيات حتى الآن.
+
     </div>
+
+    {% endif %}
 
 </div>
 

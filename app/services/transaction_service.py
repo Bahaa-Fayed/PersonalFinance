@@ -208,7 +208,7 @@ class TransactionService:
         transaction.amount = amount
         transaction.from_account_id = from_account_id
         transaction.to_account_id = to_account_id
-        transaction.category_id = category_iid
+        transaction.category_id = category_id
         transaction.description = description
         transaction.transaction_date = transaction_date
 
