@@ -22,6 +22,8 @@ def create_app():
     from app.budgets import budgets_bp
     from app.reports import reports_bp
     from app.settings import settings_bp
+    from app.debts import debts_bp
+    
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(accounts_bp)
     app.register_blueprint(transactions_bp)
@@ -29,6 +31,7 @@ def create_app():
     app.register_blueprint(budgets_bp)
     app.register_blueprint(reports_bp)
     app.register_blueprint(settings_bp)
+    app.register_blueprint(debts_bp)
     # إنشاء الجداول إذا لم تكن موجودة
     with app.app_context():
         db.create_all()

@@ -174,4 +174,46 @@ class ReportService:
             "transfers": (
                 ReportService.get_transfers()
             ),
+            "debts": (
+                ReportService.get_debts_summary()
+            ),
+        }
+    @staticmethod
+    def get_debts_summary():
+        """
+        تجهيز ملخص الديون.
+        """
+    
+        data = (
+            ReportRepository
+            .get_debts_summary()
+        )
+    
+        owed_to_me = float(
+            data["owed_to_me"] or 0
+        )
+    
+        owed_by_me = float(
+            data["owed_by_me"] or 0
+        )
+    
+        total = owed_to_me + owed_by_me
+    
+        return {
+            "owed_to_me": owed_to_me,
+            "owed_by_me": owed_by_me,
+            "total": total,
+            "count": data["count"],
+    
+            "owed_to_me_text": (
+                f"{owed_to_me:,.2f} ج.م"
+            ),
+    
+            "owed_by_me_text": (
+                f"{owed_by_me:,.2f} ج.م"
+            ),
+    
+            "total_text": (
+                f"{total:,.2f} ج.م"
+            ),
         }

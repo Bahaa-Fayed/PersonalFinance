@@ -1,3 +1,4 @@
+git status
 git add .
-git commit -m "Complete reports module with HTML export"
+git commit -m "Add debts summary to reports"
 git push

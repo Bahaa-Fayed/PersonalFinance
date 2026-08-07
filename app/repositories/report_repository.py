@@ -4,6 +4,7 @@ from app import db
 from app.models.account import Account
 from app.models.category import Category
 from app.models.transaction import Transaction
+from app.models.debt import Debt
 
 
 class ReportRepository:
@@ -136,3 +137,45 @@ class ReportRepository:
             )
             .all()
         )
+    @staticmethod
+    def get_debts_summary():
+        """
+        ملخص الديون:
+        - إجمالي ما لي
+        - إجمالي ما علي
+        - عدد الديون
+        """
+    
+        owed_to_me = (
+            db.session.query(
+                func.coalesce(
+                    func.sum(Debt.total_amount - Debt.paid_amount),
+                    0
+                )
+            )
+            .filter(
+                Debt.debt_type == "owed_to_me"
+            )
+            .scalar()
+        )
+    
+        owed_by_me = (
+            db.session.query(
+                func.coalesce(
+                    func.sum(Debt.total_amount - Debt.paid_amount),
+                    0
+                )
+            )
+            .filter(
+                Debt.debt_type == "owed_by_me"
+            )
+            .scalar()
+        )
+    
+        count = Debt.query.count()
+    
+        return {
+            "owed_to_me": owed_to_me,
+            "owed_by_me": owed_by_me,
+            "count": count,
+        }
