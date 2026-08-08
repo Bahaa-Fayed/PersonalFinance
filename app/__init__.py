@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 
 
 def create_app():
+
     app = Flask(__name__)
 
     app.config.from_object("config.Config")
@@ -12,8 +14,7 @@ def create_app():
     db.init_app(app)
 
     # استيراد النماذج حتى يتم تسجيلها في SQLAlchemy
-    from app.models import Account, Transaction
-
+    from app.models import Account, Transaction, Category, Budget, Debt
     # تسجيل الـ Blueprints
     from app.dashboard import dashboard_bp
     from app.accounts import accounts_bp
@@ -23,7 +24,8 @@ def create_app():
     from app.reports import reports_bp
     from app.settings import settings_bp
     from app.debts import debts_bp
-    
+    from app.search import search_bp
+
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(accounts_bp)
     app.register_blueprint(transactions_bp)
@@ -32,6 +34,8 @@ def create_app():
     app.register_blueprint(reports_bp)
     app.register_blueprint(settings_bp)
     app.register_blueprint(debts_bp)
+    app.register_blueprint(search_bp)
+
     # إنشاء الجداول إذا لم تكن موجودة
     with app.app_context():
         db.create_all()

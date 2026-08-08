@@ -1,0 +1,414 @@
+{% extends "base.html" %}
+
+{% block title %}
+البحث
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- العنوان -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="mb-0">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            البحث
+
+        </h2>
+
+    </div>
+
+
+    <!-- نموذج البحث -->
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+
+            <i class="fa-solid fa-filter"></i>
+
+            خيارات البحث
+
+        </div>
+
+        <div class="card-body">
+
+            <form
+                method="get"
+                action="{{ url_for('search.index') }}"
+            >
+
+                <div class="row g-3">
+
+                    <!-- كلمة البحث -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="q"
+                            class="form-label"
+                        >
+                            كلمة البحث
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="q"
+                            name="q"
+                            value="{{ query }}"
+                            placeholder="الوصف، الفئة، الحساب..."
+                        >
+
+                    </div>
+
+
+                    <!-- نوع العملية -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="transaction_type"
+                            class="form-label"
+                        >
+                            نوع العملية
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="transaction_type"
+                            name="transaction_type"
+                        >
+
+                            <option
+                                value=""
+                                {% if not transaction_type %}
+                                    selected
+                                {% endif %}
+                            >
+                                الكل
+                            </option>
+
+                            <option
+                                value="income"
+                                {% if transaction_type == "income" %}
+                                    selected
+                                {% endif %}
+                            >
+                                دخل
+                            </option>
+
+                            <option
+                                value="expense"
+                                {% if transaction_type == "expense" %}
+                                    selected
+                                {% endif %}
+                            >
+                                مصروف
+                            </option>
+
+                            <option
+                                value="transfer"
+                                {% if transaction_type == "transfer" %}
+                                    selected
+                                {% endif %}
+                            >
+                                تحويل
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- من تاريخ -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="date_from"
+                            class="form-label"
+                        >
+                            من تاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="date_from"
+                            name="date_from"
+                            value="{{ date_from }}"
+                        >
+
+                    </div>
+
+
+                    <!-- إلى تاريخ -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="date_to"
+                            class="form-label"
+                        >
+                            إلى تاريخ
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="date_to"
+                            name="date_to"
+                            value="{{ date_to }}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- الأزرار -->
+
+                <div class="d-flex gap-2 mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        بحث
+
+                    </button>
+
+                    <a
+                        href="{{ url_for('search.index') }}"
+                        class="btn btn-secondary"
+                    >
+
+                        <i class="fa-solid fa-rotate-left"></i>
+
+                        إعادة تعيين
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- رسالة الخطأ -->
+
+    {% if error %}
+
+    <div class="alert alert-danger">
+
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        {{ error }}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- النتائج -->
+
+    {% if transactions %}
+
+    <div class="card">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+
+            <span>
+
+                <i class="fa-solid fa-list"></i>
+
+                نتائج البحث
+
+            </span>
+
+            <span>
+
+                {{ transactions|length }} عملية
+
+            </span>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>التاريخ</th>
+
+                            <th>النوع</th>
+
+                            <th>الحساب</th>
+
+                            <th>الفئة</th>
+
+                            <th>المبلغ</th>
+
+                            <th>الوصف</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for transaction in transactions %}
+
+                        <tr>
+
+                            <!-- التاريخ -->
+
+                            <td>
+
+                                {{ transaction.transaction_date.strftime("%d/%m/%Y") }}
+
+                            </td>
+
+
+                            <!-- النوع -->
+
+                            <td>
+
+                                {% if transaction.transaction_type == "income" %}
+
+                                    <span class="badge bg-success">
+
+                                        دخل
+
+                                    </span>
+
+                                {% elif transaction.transaction_type == "expense" %}
+
+                                    <span class="badge bg-danger">
+
+                                        مصروف
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-primary">
+
+                                        تحويل
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- الحساب -->
+
+                            <td>
+
+                                {% if transaction.transaction_type == "transfer" %}
+
+                                    {{ transaction.from_account.name if transaction.from_account else "-" }}
+
+                                    <i class="fa-solid fa-arrow-left mx-1"></i>
+
+                                    {{ transaction.to_account.name if transaction.to_account else "-" }}
+
+                                {% elif transaction.transaction_type == "expense" %}
+
+                                    {{ transaction.from_account.name if transaction.from_account else "-" }}
+
+                                {% else %}
+
+                                    {{ transaction.to_account.name if transaction.to_account else "-" }}
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- الفئة -->
+
+                            <td>
+
+                                {% if transaction.category %}
+
+                                    {{ transaction.category.name }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- المبلغ -->
+
+                            <td>
+
+                                {{ "{:,.2f}".format(transaction.amount) }}
+
+                                ج.م
+
+                            </td>
+
+
+                            <!-- الوصف -->
+
+                            <td>
+
+                                {{ transaction.description or "-" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% elif query or date_from or date_to or transaction_type %}
+
+    <!-- لا توجد نتائج -->
+
+    <div class="alert alert-info">
+
+        <i class="fa-solid fa-circle-info"></i>
+
+        لا توجد نتائج مطابقة لخيارات البحث.
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
